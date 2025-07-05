@@ -1,16 +1,13 @@
-# location_tracker
+# Location Tracker
 
-Background location tracker app
+A Flutter app that tracks device location continuously—even in the background—using:
+
+- `background_locator_2`
+- Hive for persistent local storage
+- Runtime permissions
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. **Install dependencies**
+   ```sh
+   flutter pub get

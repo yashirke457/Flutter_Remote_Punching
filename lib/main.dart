@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:background_locator_2/background_locator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:background_locator_2/background_locator.dart';
 import 'location_service.dart';
 
 void main() async {
@@ -12,60 +12,46 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Location Tracker',
-      home: LocationHome(),
-    );
+    return MaterialApp(home: HomeScreen());
   }
 }
 
-class LocationHome extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  State<LocationHome> createState() => _LocationHomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _LocationHomeState extends State<LocationHome> {
-  bool isTracking = false;
+class _HomeScreenState extends State<HomeScreen> {
+  bool _tracking = false;
 
   @override
   void initState() {
     super.initState();
-    _checkPermissions();
+    _requestPermissions();
   }
 
-  Future<void> _checkPermissions() async {
-    var status = await Permission.locationAlways.request();
-    if (!status.isGranted) {
-      openAppSettings();
+  Future<void> _requestPermissions() async {
+    await Permission.locationAlways.request();
+    await Permission.location.request();
+  }
+
+  void _toggleTracking() {
+    if (_tracking) {
+      LocationService.stop();
+    } else {
+      LocationService.start();
     }
-  }
-
-  void _start() {
-    LocationService.start();
-    setState(() {
-      isTracking = true;
-    });
-  }
-
-  void _stop() {
-    LocationService.stop();
-    setState(() {
-      isTracking = false;
-    });
+    setState(() => _tracking = !_tracking);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Location Tracker")),
+      appBar: AppBar(title: Text('Location Tracker')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isTracking
-                ? ElevatedButton(onPressed: _stop, child: Text("Stop Tracking"))
-                : ElevatedButton(onPressed: _start, child: Text("Start Tracking")),
-          ],
+        child: ElevatedButton(
+          onPressed: _toggleTracking,
+          child: Text(_tracking ? 'Stop Tracking' : 'Start Tracking'),
         ),
       ),
     );

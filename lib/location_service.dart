@@ -8,24 +8,25 @@ class LocationService {
       LocationCallbackHandler.callback,
       initCallback: LocationCallbackHandler.initCallback,
       disposeCallback: LocationCallbackHandler.disposeCallback,
-      autoStop: false,
+      androidSettings: AndroidSettings(
+        accuracy: LocationAccuracy.NAVIGATION,
+        interval: 60,
+        distanceFilter: 0,
+        androidNotificationSettings: AndroidNotificationSettings(
+          notificationChannelName: 'Location Tracking',
+          notificationTitle: 'Tracking in background',
+          notificationMsg: 'Tap to return to the app',
+          notificationBigMsg: 'Your location is being recorded',
+          notificationIcon: '',
+          notificationTapCallback:
+          LocationCallbackHandler.notificationCallback,
+        ),
+      ),
       iosSettings: IOSSettings(
         accuracy: LocationAccuracy.NAVIGATION,
         distanceFilter: 0,
       ),
-      androidSettings: AndroidSettings(
-        accuracy: LocationAccuracy.NAVIGATION,
-        interval: 10,
-        distanceFilter: 0,
-        androidNotificationSettings: AndroidNotificationSettings(
-          notificationChannelName: 'Location Tracking',
-          notificationTitle: 'Background Tracking',
-          notificationMsg: 'Location tracking is active',
-          notificationBigMsg: 'You are being tracked for location updates.',
-          notificationIcon: '',
-          notificationTapCallback: LocationCallbackHandler.notificationCallback,
-        ),
-      ),
+      autoStop: false,
     );
   }
 
