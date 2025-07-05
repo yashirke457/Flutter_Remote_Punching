@@ -1,6 +1,9 @@
 import 'package:background_locator_2/background_locator.dart';
+import 'package:background_locator_2/settings/android_settings.dart';
+import 'package:background_locator_2/settings/ios_settings.dart';
 import 'package:background_locator_2/settings/locator_settings.dart';
 import 'location_callback_handler.dart';
+
 
 class LocationService {
   static void start() {

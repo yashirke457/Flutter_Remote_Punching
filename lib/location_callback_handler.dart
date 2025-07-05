@@ -1,33 +1,34 @@
-import 'dart:isolate';
 import 'package:background_locator_2/location_dto.dart';
 import 'package:hive/hive.dart';
 import 'location_model.dart';
 
 class LocationCallbackHandler {
-  static const String _isolateName = 'LocatorIsolate';
-
-  static Future<void> initCallback() async {
+  // initCallback expects Map<String, dynamic>
+  static void initCallback(Map<String, dynamic> _) {
     Hive.init('.');
     Hive.registerAdapter(LocationModelAdapter());
-    await Hive.openBox<LocationModel>('locations');
+    Hive.openBox<LocationModel>('locations');
     print('>>> isolate initialized');
   }
 
-  static Future<void> disposeCallback() async {
+  // disposeCallback expects NO parameters
+  static void disposeCallback() {
     print('>>> isolate destroyed');
   }
 
-  static Future<void> callback(LocationDto dto) async {
-    var box = Hive.box<LocationModel>('locations');
+  // callback expects LocationDto
+  static void callback(LocationDto dto) {
+    final box = Hive.box<LocationModel>('locations');
     box.add(LocationModel(
       latitude: dto.latitude,
       longitude: dto.longitude,
       timestamp: DateTime.now(),
     ));
-    print(
-        '>>> location saved: ${dto.latitude}, ${dto.longitude} @ ${DateTime.now()}');
+
+    print('>>> location saved: ${dto.latitude}, ${dto.longitude} @ ${DateTime.now()}');
   }
 
+  // Optional: used when notification is tapped
   static Future<void> notificationCallback() async {
     print('>>> notification clicked');
   }

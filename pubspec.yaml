@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  background_locator_2: ^2.0.6
+  background_locator_2:
+    path: plugins/background_locator_2
   permission_handler: ^11.3.0
   geolocator: ^10.1.0
   http: ^1.2.1
